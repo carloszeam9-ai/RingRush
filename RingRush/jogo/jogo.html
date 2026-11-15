@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Desafio dos Anéis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="hud" class="box">
+  <div><small>PONTOS</small><b id="score">0</b></div>
+  <div><small>TEMPO</small><b id="time">90</b></div>
+  <div><small>ANÉIS</small><b id="rings">0</b></div>
+  <div><small>COMBO</small><b id="combo">x1</b></div>
+  <div><small>ALT</small><b id="alt">0</b></div>
+</div>
+<div id="conn" class="box">
+  ESP IP: <input type="text" id="ip" placeholder="192.168.0.50"> <button id="btn">Conectar</button><br>
+  <label><input type="checkbox" id="invP"> inverter pitch</label>
+  <label><input type="checkbox" id="invR"> inverter roll</label>
+  <label><input type="checkbox" id="swapPR"> trocar eixos</label><br>
+  <small>Tecla C: zerar o ponto neutro</small><br>
+  <span id="status">Sensor desconectado (teclado: setas/WASD)</span>
+</div>
+<div id="msg"></div>
+<div id="panel">
+  <h1 id="title">✈ Desafio dos Anéis</h1>
+  <div id="result">Atravesse os anéis e desvie dos prédios!</div>
+  <div id="prev3d"></div>
+  <div id="sel"><button id="pp">◀</button><b id="pname"></b><button id="pn">▶</button></div>
+  <input id="name" maxlength="14" placeholder="Seu nome" autocomplete="off">
+  <button id="go">Jogar</button>
+  <table id="rank"></table>
+  <div class="small">Ranking salvo neste navegador.</div>
+</div>
+
+<div id="admin" style="display:none">
+  <div class="card">
+    <h2>Administração</h2>
+    <div id="adminLocked">
+      <input id="pin" type="password" placeholder="PIN" autocomplete="off"><br>
+      <button id="pinOk">Entrar</button><button id="adminCancel" onclick="closeAdmin()">Cancelar</button>
+      <div id="pinMsg"></div>
+    </div>
+    <div id="adminTools" style="display:none">
+      <button id="csv">Exportar CSV</button><button id="restore">Restaurar backup</button><br>
+      <input id="confirmTxt" placeholder="digite APAGAR" autocomplete="off"><br>
+      <button id="clr" class="danger" disabled>Limpar ranking</button>
+      <div id="adminMsg"></div>
+      <small>Com o admin aberto, clique no ✕ de uma linha para remover só aquele nome.</small><br>
+      <button id="adminClose">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/planes.js"></script>
+<script src="js/city.js"></script>
+<script src="js/rank.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/input.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
