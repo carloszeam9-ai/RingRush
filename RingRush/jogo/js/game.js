@@ -45,9 +45,10 @@ function loop() {
   }
   const moving = state === 'play' || state === 'menu' || state === 'over';
   if (moving) {
-    pitch += (clamp(tp, -55, 55) * Math.PI / 180 - pitch) * 6 * dt;
-    roll += (clamp(tr, -75, 75) * Math.PI / 180 - roll) * 6 * dt;
-    heading -= Math.sin(roll) * 1.3 * dt;
+    const k = 1 - Math.exp(-SMOOTH * dt);
+    pitch += (clamp(tp, -55, 55) * Math.PI / 180 - pitch) * k;
+    roll += (clamp(tr, -75, 75) * Math.PI / 180 - roll) * k;
+    heading -= Math.sin(roll) * TURN_RATE * dt;
     plane.rotation.set(pitch, heading, -roll);
     plane.translateZ(-SPEED * dt);
     const ceil = state === 'play' ? CEIL : 450; if (p.y > ceil) p.y = ceil;
@@ -82,7 +83,7 @@ function loop() {
   ground.position.set(Math.round(p.x / CELL) * CELL, 0, Math.round(p.z / CELL) * CELL);
 
   camPos.set(0, 2.8, 9.5).applyQuaternion(plane.quaternion).add(p);
-  camera.position.lerp(camPos, 6 * dt); camera.up.set(0, 1, 0); camera.lookAt(p.x, p.y + 1, p.z);
+  camera.position.lerp(camPos, 1 - Math.exp(-CAM_FOLLOW * dt)); camera.up.set(0, 1, 0); camera.lookAt(p.x, p.y + 1, p.z);
   sky.position.copy(camera.position); pyr.position.set(p.x, 0, p.z);
   for (const fn of model.userData.anims) fn(clockT, roll);
   renderer.render(scene, camera);

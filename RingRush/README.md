@@ -8,7 +8,7 @@ Feito para ser jogado por muita gente em eventos.
 ```
 MPU6050 → ESP8266 (WiFi, WebSocket) → página do jogo no navegador (three.js)
 ```
-O ESP lê a inclinação 50x por segundo e envia ao navegador. O jogo roda inteiro no navegador.
+O ESP lê a inclinação 100x por segundo e envia ao navegador. O jogo roda inteiro no navegador.
 
 ## O que você precisa
 - NodeMCU (ESP8266) e sensor MPU6050 (GY-521)
@@ -53,6 +53,10 @@ RingRush/
     ├── css/style.css
     └── js/                     config, scene, planes, city, rank, audio, input, game
 ```
+
+## Versão do evento (sem seleção de avião)
+Em `jogo/js/config.js`, troque `PLANE_SELECT` para `false` e escolha o avião em `FIXED_PLANE`.
+A sensibilidade do controle também fica ali (`GAIN`, `SMOOTH`, `TURN_RATE`, `DEADZONE`).
 
 ## Observação sobre GitHub Pages
 O navegador bloqueia a conexão do sensor (`ws://`) em páginas `https://`. Para jogar com o sensor,

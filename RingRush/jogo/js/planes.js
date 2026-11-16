@@ -127,7 +127,8 @@ function setPlane(i) {
 }
 $('pp').onclick = () => setPlane(selPlane - 1); $('pn').onclick = () => setPlane(selPlane + 1);
 addEventListener('keydown', e => {
-  if ($('panel').style.display === 'none' || $('admin').style.display !== 'none' || document.activeElement === $('name')) return;
+  if (!PLANE_SELECT || $('panel').style.display === 'none' || $('admin').style.display !== 'none' || document.activeElement === $('name')) return;
   if (e.key === 'ArrowRight') setPlane(selPlane + 1); if (e.key === 'ArrowLeft') setPlane(selPlane - 1);
 });
+if (!PLANE_SELECT) { selPlane = Math.max(0, PLANES.findIndex(p => p.id === FIXED_PLANE)); $('sel').style.display = 'none'; }   // versão do evento
 setPlane(selPlane);

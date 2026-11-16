@@ -57,6 +57,7 @@ void calibrate() {
 void setup() {
   Serial.begin(115200);
   Wire.begin(SDA_PIN, SCL_PIN);
+  Wire.setClock(400000);   // I2C rápido (400 kHz): leitura do sensor mais ágil
   mpuWrite(0x6B, 0x00);  // acorda o MPU6050
   mpuWrite(0x1B, 0x00);  // giroscópio ±250°/s (131 LSB/°/s)
   mpuWrite(0x1C, 0x00);  // acelerômetro ±2g (16384 LSB/g)
@@ -65,6 +66,7 @@ void setup() {
   calibrate();
 
   WiFi.mode(WIFI_STA);
+  WiFi.setSleepMode(WIFI_NONE_SLEEP);   // desliga a economia de energia do WiFi: menos atraso e menos oscilação
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   Serial.print("Conectando");
   while (WiFi.status() != WL_CONNECTED) { delay(400); Serial.print("."); }
@@ -97,7 +99,7 @@ void loop() {
   roll  = 0.96f * (roll  + gx * dt) + 0.04f * accRoll;
   pitch = 0.96f * (pitch + gy * dt) + 0.04f * accPitch;
 
-  if (millis() - lastSend >= 20) {  // 50 Hz
+  if (millis() - lastSend >= 10) {  // 100 Hz
     lastSend = millis();
     char buf[32];
     snprintf(buf, sizeof(buf), "%.1f,%.1f", pitch, roll);
