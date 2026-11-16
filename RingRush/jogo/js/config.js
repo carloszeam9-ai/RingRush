@@ -12,5 +12,5 @@ const TURN_RATE = 1.7;   // quão rápido o avião curva ao inclinar (antes 1.3)
 const CAM_FOLLOW = 12;   // quão colada a câmera segue o avião (antes 6)
 
 // ---- Seleção de avião ----
-const PLANE_SELECT = true;    // false = versão do evento: sem seleção, só o avião abaixo
-const FIXED_PLANE = 'jato';   // jato, b2, gripen, mig25, f22, sr71, f14, a10, ufo, dragao, nave, papel
+const PLANE_SELECT = false;
+const FIXED_PLANE = 'jato';
