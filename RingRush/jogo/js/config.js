@@ -7,7 +7,7 @@ const CELL = 100, N = 5, CH = CELL * N, R = 2;   // chunk, célula, células/lad
 const ADMIN_PIN = '1234';   // PIN da área de administração do ranking (TROQUE antes do evento)
 
 // ---- Resposta do controle (aumente para ficar mais rápido/sensível) ----
-const SMOOTH = 20;       // velocidade com que o avião acompanha a mão (antes era 6 = lento). 12 = suave, 30 = quase direto
+const SMOOTH = 14;       // velocidade com que o avião acompanha a mão (antes era 6 = lento). 12 = suave, 30 = quase direto
 const TURN_RATE = 1.7;   // quão rápido o avião curva ao inclinar (antes 1.3)
 const CAM_FOLLOW = 12;   // quão colada a câmera segue o avião (antes 6)
 

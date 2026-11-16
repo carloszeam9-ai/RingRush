@@ -14,7 +14,7 @@ $('btn').onclick = () => {
   ws.onopen = () => { usingSensor = true; $('status').textContent = 'Sensor conectado ✔'; };
   ws.onclose = () => { usingSensor = false; $('status').textContent = 'Sensor desconectado (teclado ativo)'; };
   ws.onerror = () => { $('status').textContent = 'Erro ao conectar'; };
-  ws.onmessage = e => { const [p, r] = e.data.split(',').map(Number); if (!isNaN(p) && !isNaN(r)) { rawP = p; rawR = r; } };
+  ws.onmessage = e => { const [p, r] = e.data.split(',').map(Number); if (!isNaN(p) && !isNaN(r)) { rawP = p; rawR = r; if (typeof diagSample === 'function') diagSample(p, r); } };
 };
 
 // Lembra as opções do sensor (trocar/inverter eixos) entre sessões

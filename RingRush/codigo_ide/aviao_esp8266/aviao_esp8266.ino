@@ -61,6 +61,7 @@ void setup() {
   mpuWrite(0x6B, 0x00);  // acorda o MPU6050
   mpuWrite(0x1B, 0x00);  // giroscópio ±250°/s (131 LSB/°/s)
   mpuWrite(0x1C, 0x00);  // acelerômetro ±2g (16384 LSB/g)
+  mpuWrite(0x1A, 0x02);  // filtro digital ~94 Hz: tira o ruído do sensor, custa só ~3 ms
 
   Serial.println("\nCalibrando... mantenha parado.");
   calibrate();
@@ -86,6 +87,7 @@ void loop() {
   unsigned long now = micros();
   float dt = (now - lastUs) / 1e6f;
   lastUs = now;
+  if (dt > 0.05f) dt = 0.05f;
 
   float ax = v[0], ay = v[1], az = v[2];
   float gx = (v[4] - gxOff) / 131.0f;
@@ -95,9 +97,19 @@ void loop() {
   float accRoll  = atan2f(ay, az) * 57.2958f;
   float accPitch = atan2f(-ax, sqrtf(ay * ay + az * az)) * 57.2958f;
 
-  // filtro complementar (gyro + acel)
-  roll  = 0.96f * (roll  + gx * dt) + 0.04f * accRoll;
-  pitch = 0.96f * (pitch + gy * dt) + 0.04f * accPitch;
+  // Filtro complementar com constante de tempo (não depende da velocidade do loop).
+  // O giroscópio manda no curto prazo (rápido e suave); o acelerômetro só corrige a deriva, devagar.
+  static bool started = false;
+  if (!started) { roll = accRoll; pitch = accPitch; started = true; }
+  const float TAU = 0.25f;                                      // segundos (menor = mais "nervoso", maior = mais suave)
+  float a = TAU / (TAU + dt);
+  float mag = sqrtf(ax * ax + ay * ay + az * az) / 16384.0f;    // ~1,0 g com o sensor parado
+  roll  += gx * dt;
+  pitch += gy * dt;
+  if (fabsf(mag - 1.0f) < 0.25f) {                              // ignora o acelerômetro quando a mão balança forte
+    roll  = a * roll  + (1 - a) * accRoll;
+    pitch = a * pitch + (1 - a) * accPitch;
+  }
 
   if (millis() - lastSend >= 10) {  // 100 Hz
     lastSend = millis();

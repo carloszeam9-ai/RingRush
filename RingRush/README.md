@@ -34,6 +34,7 @@ Sem o sensor, dá para jogar com as setas ou WASD.
 ## Controles
 - Inclinar para os lados: rola e curva. Inclinar para frente ou para trás: desce ou sobe.
 - **C**: zera o ponto neutro do sensor.
+- **F3**: painel de diagnóstico (FPS, leituras por segundo e gráfico do sensor).
 - Setas ◀ ▶ na tela inicial: escolhe entre 12 aviões.
 - Se os eixos estiverem errados, use **trocar eixos**, **inverter pitch** e **inverter roll** no canto da tela.
 
